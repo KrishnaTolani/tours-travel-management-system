@@ -1,9 +1,0 @@
-@echo off
-echo Starting Tours and Travel Backend...
-cd backend
-echo Checking Java...
-java -version
-echo.
-echo Starting Spring Boot application directly...
-java -cp "src/main/resources;target/classes" -Dspring.profiles.active=dev com.tours.ToursBackendApplication
-pause

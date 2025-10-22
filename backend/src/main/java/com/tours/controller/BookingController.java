@@ -3,8 +3,11 @@ package com.tours.controller;
 import com.tours.dto.ApiResponse;
 import com.tours.entity.Booking;
 import com.tours.entity.User;
+import com.tours.entity.Tour;
 import com.tours.service.BookingService;
 import com.tours.service.UserService;
+import com.tours.service.EmailService;
+import com.tours.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +25,12 @@ public class BookingController {
     @Autowired
     private UserService userService;
     
+    @Autowired
+    private EmailService emailService;
+    
+    @Autowired
+    private TourService tourService;
+    
     @PostMapping("/book")
     public ResponseEntity<ApiResponse<Booking>> bookTour(
             @RequestParam Long tourId,
@@ -29,6 +38,15 @@ public class BookingController {
             @RequestParam Integer tickets) {
         try {
             Booking booking = bookingService.bookTour(tourId, customerId, tickets);
+            
+            // Send confirmation email to customer
+            Optional<User> customer = userService.getUserById(customerId);
+            Optional<Tour> tour = tourService.getTourById(tourId);
+            
+            if (customer.isPresent() && tour.isPresent()) {
+                emailService.sendBookingConfirmation(customer.get(), booking, tour.get());
+            }
+            
             return ResponseEntity.ok(ApiResponse.success("Tour booked successfully", booking));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));

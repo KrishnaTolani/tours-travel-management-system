@@ -1,133 +1,146 @@
-# Tours and Travel Management System
+# 🌍 Tours & Travel Management System
 
-A comprehensive web application for managing tours and travel bookings built with Spring Boot (Backend) and React TypeScript (Frontend).
+A complete full-stack web application for managing tours, bookings, and travel experiences with YouTube video backgrounds, email notifications, and modern UI design.
 
-## Features
-
-### User Roles
-- **Admin**: Manage locations, transports, lodges, tour guides, view all bookings and customers
-- **Tour Guide**: Add and manage tours, view bookings for their tours
-- **Customer**: Browse tours, book tours, view booking history
-
-### Core Functionalities
-- User authentication and authorization
-- Tour search and filtering
-- Tour booking with payment simulation
-- Location, transport, and lodge management
-- Comprehensive dashboard for each user role
-- Responsive design with Bootstrap
-
-## Technology Stack
-
-### Backend
-- Spring Boot 3.3.0
-- Spring Data JPA
-- Spring Security
-- MySQL Database
-- Maven
-- Swagger/OpenAPI
+## 🚀 Tech Stack
 
 ### Frontend
-- React 18
-- TypeScript
-- React Router
-- Axios
-- Bootstrap 5
-- Vite
+- **React 18** with TypeScript
+- **Vite** for fast development and building
+- **React Router DOM** for navigation
+- **Bootstrap 5** for responsive design
+- **Axios** for API communication
+- **YouTube Integration** for background videos
 
-## Prerequisites
+### Backend
+- **Spring Boot 3.3.0** (Java 17)
+- **Spring Security** with JWT authentication
+- **Spring Data JPA** for database operations
+- **Spring Mail** for email notifications
+- **H2 Database** (file-based, persistent)
+- **Swagger/OpenAPI** for API documentation
+- **Maven** for dependency management
 
-Before running this application, make sure you have the following installed:
+### DevOps & Deployment
+- **Docker** containerization
+- **Volume mounting** for data persistence
 
-1. **Java 17 or higher**
-2. **Node.js 16 or higher**
-3. **MySQL 8.0 or higher**
-4. **Maven 3.6 or higher**
+## 🎯 Features
 
-## Database Setup
+### Core Functionality
+- ✅ **User Management** - Registration, Login, Role-based access (Admin, Tour Guide, Customer)
+- ✅ **Tour Management** - CRUD operations for tours with locations, guides, and pricing
+- ✅ **Booking System** - Tour reservations with ticket management
+- ✅ **Location Management** - From/To destinations
+- ✅ **Transport & Lodge** - Accommodation and travel options
+- ✅ **Admin Dashboard** - Complete system management
+- ✅ **Tour Guide Dashboard** - Guide-specific operations
+- ✅ **Customer Dashboard** - User booking history
 
-1. **Install MySQL** and start the MySQL service
+### UI/UX Features
+- ✅ **YouTube Video Backgrounds** - Immersive landing page experience
+- ✅ **Responsive Design** - Mobile-first approach with Bootstrap
+- ✅ **Modern Animations** - Smooth transitions and hover effects
+- ✅ **Developer Section** - Meet the team showcase
+- ✅ **Enhanced Price Display** - Better visibility and styling
+- ✅ **Interactive Cards** - Hover effects and animations
 
-2. **Create Database** (Optional - application will create it automatically):
-   ```sql
-   CREATE DATABASE tours_travel_db;
-   ```
+### Email Notifications
+- ✅ **Tour Guide Welcome Email** - Login credentials sent when registered by admin
+- ✅ **Booking Confirmation Email** - Detailed booking information sent to customers
+- ✅ **Gmail SMTP Integration** - Professional email delivery
 
-3. **Update Database Configuration** (if needed):
-   Edit `backend/src/main/resources/application.properties`:
-   ```properties
-   spring.datasource.url=jdbc:mysql://localhost:3306/tours_travel_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-   spring.datasource.username=root
-   spring.datasource.password=root
-   ```
+## 🛠️ Quick Start
 
-## Installation and Setup
+### Prerequisites
+- **Docker Desktop** installed and running
+- **Git** for version control
 
-### Backend Setup
+### 🐳 Docker Deployment (Recommended)
 
-1. **Navigate to backend directory**:
-   ```bash
-   cd backend
-   ```
+1. **Clone the repository**
+```bash
+git clone <your-repo-url>
+cd tours-and-travels
+```
 
-2. **Install dependencies and run**:
-   ```bash
-   mvn clean install
-   mvn spring-boot:run
-   ```
+2. **Configure Email (Optional)**
+Edit `backend/src/main/resources/application.properties`:
+```properties
+spring.mail.username=your-email@gmail.com
+spring.mail.password=your-gmail-app-password
+```
 
-   The backend will start on `http://localhost:8080`
+3. **Build and Run**
+```bash
+# Build backend
+cd backend
+.\mvnw.cmd clean package -DskipTests
+cd ..
 
-3. **Verify backend is running**:
-   - Visit `http://localhost:8080/swagger-ui.html` for API documentation
-   - Default admin credentials: `admin@tours.com` / `admin123`
+# Build frontend
+cd frontend
+npm install
+npm run build
+cd ..
 
-### Frontend Setup
+# Run with Docker
+docker run -d --name tours-app -p 8081:8081 -p 5174:5174 -v "%cd%\data:/app/data" -v "%cd%\backend\target:/app/backend" -v "%cd%\frontend\dist:/app/frontend" openjdk:17-jdk-slim bash -c "apt-get update && apt-get install -y python3 && cd /app/frontend && python3 -m http.server 5174 & cd /app/backend && java -jar *.jar"
+```
 
-1. **Navigate to frontend directory**:
-   ```bash
-   cd frontend
-   ```
+### 📱 Access Points
+- **Frontend**: http://localhost:5174
+- **Backend API**: http://localhost:8081
+- **H2 Database Console**: http://localhost:8081/h2-console
+- **API Documentation**: http://localhost:8081/swagger-ui.html
 
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+### 🗄️ Database Access
+- **JDBC URL**: `jdbc:h2:file:./data/tours_travel_db`
+- **Username**: `sa`
+- **Password**: (empty)
 
-3. **Start the development server**:
-   ```bash
-   npm run dev
-   ```
+## 🔄 Development Workflow
 
-   The frontend will start on `http://localhost:3000`
+### Making Changes
+1. **Edit Code** - Make your changes to frontend/backend
+2. **Rebuild Applications**
+```bash
+cd backend && .\mvnw.cmd clean package -DskipTests && cd ..
+cd frontend && npm run build && cd ..
+```
+3. **Restart Container**
+```bash
+docker stop tours-app && docker rm tours-app
+docker run -d --name tours-app -p 8081:8081 -p 5174:5174 -v "%cd%\data:/app/data" -v "%cd%\backend\target:/app/backend" -v "%cd%\frontend\dist:/app/frontend" openjdk:17-jdk-slim bash -c "apt-get update && apt-get install -y python3 && cd /app/frontend && python3 -m http.server 5174 & cd /app/backend && java -jar *.jar"
+```
 
-## Usage
+### Useful Commands
+```bash
+# View container logs
+docker logs -f tours-app
 
-### Default Admin Account
-- **Email**: admin@tours.com
-- **Password**: admin123
-- **Role**: Admin
+# Stop application
+docker stop tours-app && docker rm tours-app
 
-### Getting Started
+# Check container status
+docker ps
+```
 
-1. **Access the application** at `http://localhost:3000`
+## 🔐 User Roles & Access
 
-2. **Admin Setup** (Login as admin first):
-   - Add locations (e.g., Mumbai, Delhi, Kerala)
-   - Add transport types (e.g., Bus, Train, Flight)
-   - Add lodge types (e.g., Hotel, Villa, Bungalow)
-   - Register tour guides
+### Admin
+- **Login**: admin@tours.com / (check H2 console for password)
+- **Access**: Complete system management, user creation, tour management
 
-3. **Tour Guide** (Login as tour guide):
-   - Add tours with complete details
-   - Manage tour bookings
+### Tour Guide
+- **Registration**: Created by admin, receives email with credentials
+- **Access**: Manage assigned tours, view bookings
 
-4. **Customer** (Register as customer):
-   - Browse and search tours
-   - Book tours
-   - View booking history
+### Customer
+- **Registration**: Self-registration available
+- **Access**: Browse tours, make bookings, view booking history
 
-## API Endpoints
+## 📊 API Endpoints
 
 ### Authentication
 - `POST /api/auth/login` - User login
@@ -135,76 +148,82 @@ Before running this application, make sure you have the following installed:
 
 ### Tours
 - `GET /api/tours/all` - Get all active tours
-- `GET /api/tours/search?query={query}` - Search tours
-- `GET /api/tours/{id}` - Get tour by ID
-- `POST /api/tours/add` - Add new tour (Tour Guide only)
+- `POST /api/tours/add` - Add new tour (Admin)
+- `GET /api/tours/{id}` - Get tour details
 
 ### Bookings
 - `POST /api/bookings/book` - Book a tour
-- `GET /api/bookings/all` - Get all bookings (Admin only)
 - `GET /api/bookings/customer/{id}` - Get customer bookings
-- `GET /api/bookings/guide/{id}` - Get tour guide bookings
 
-### Admin APIs
-- `GET/POST/PUT/DELETE /api/locations/**` - Location management
-- `GET/POST/PUT/DELETE /api/transports/**` - Transport management
-- `GET/POST/PUT/DELETE /api/lodges/**` - Lodge management
-- `GET /api/users/**` - User management
+### Users
+- `GET /api/users/guides` - Get all tour guides
+- `GET /api/users/customers` - Get all customers
 
-## Project Structure
+## 🎨 UI Components
 
+### Video Backgrounds
+- **Landing Page Hero**: YouTube video with overlay
+- **About Section**: YouTube video with light overlay for better text readability
+
+### Enhanced Features
+- **Price Tags**: Red gradient with white borders for better visibility
+- **Developer Cards**: Hover animations and professional styling
+- **Navigation**: Modern glass-morphism design
+- **Responsive Layout**: Mobile-first Bootstrap implementation
+
+## 👥 Development Team
+
+### Developers
+- **Krishna Tolani** - Full Stack Developer (Super 30 Batch)
+- **Sujal Samadiya** - Full Stack Developer (Super 30 Batch)
+
+## 📁 Project Structure
 ```
 tours-and-travels/
-├── backend/
-│   ├── src/main/java/com/tours/
-│   │   ├── controller/          # REST Controllers
-│   │   ├── service/             # Business Logic
-│   │   ├── repository/          # Data Access Layer
-│   │   ├── entity/              # JPA Entities
-│   │   ├── dto/                 # Data Transfer Objects
-│   │   └── config/              # Configuration Classes
-│   └── src/main/resources/
-│       └── application.properties
-├── frontend/
-│   ├── src/
-│   │   ├── components/          # React Components
-│   │   ├── services/            # API Services
-│   │   ├── types.ts             # TypeScript Interfaces
-│   │   └── App.tsx              # Main App Component
-│   └── package.json
-└── README.md
+├── backend/                 # Spring Boot application
+│   ├── src/main/java/      # Java source code
+│   ├── src/main/resources/ # Configuration files
+│   └── pom.xml             # Maven dependencies
+├── frontend/               # React TypeScript application
+│   ├── src/components/     # React components
+│   ├── src/services/       # API services
+│   └── package.json        # NPM dependencies
+├── data/                   # H2 database files
+├── docker-compose.yml      # Docker orchestration
+├── Dockerfile             # Container configuration
+└── README.md              # This file
 ```
 
-## Troubleshooting
+## 🔧 Configuration Files
 
-### Common Issues
+### Email Setup (Gmail)
+1. Enable 2-factor authentication on Gmail
+2. Generate App Password for "Mail"
+3. Update `application.properties` with your credentials
 
-1. **Database Connection Error**:
-   - Ensure MySQL is running
-   - Check database credentials in `application.properties`
-   - Verify database exists or enable auto-creation
+### Database Configuration
+- **Type**: H2 (File-based, persistent)
+- **Location**: `./data/tours_travel_db`
+- **Auto-creates tables**: Yes (via JPA)
 
-2. **Port Already in Use**:
-   - Backend (8080): Change `server.port` in `application.properties`
-   - Frontend (3000): Use `npm run dev -- --port 3001`
+## 🚀 Deployment Notes
 
-3. **CORS Issues**:
-   - Ensure backend CORS configuration allows frontend origin
-   - Check `SecurityConfig.java` for CORS settings
+### Docker Benefits
+- **Single Command Deployment**: Everything runs in one container
+- **Data Persistence**: Database survives container restarts
+- **Port Mapping**: Frontend (5174) and Backend (8081)
+- **Volume Mounting**: Code and data persistence
 
-4. **Build Errors**:
-   - Ensure Java 17+ and Node.js 16+ are installed
-   - Clear Maven cache: `mvn clean`
-   - Clear npm cache: `npm cache clean --force`
+### Production Considerations
+- Update email credentials for production
+- Configure proper CORS origins
+- Use external database for production
+- Set up proper logging and monitoring
 
-## Contributing
+## 📝 License
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+This project is developed for educational purposes as part of the Super 30 Batch program.
 
-## License
+---
 
-This project is licensed under the MIT License.
+**🌟 Happy Traveling! 🚀**

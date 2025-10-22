@@ -94,10 +94,10 @@ const Home = () => {
                   <h5 className="card-title text-primary">{tour.name}</h5>
                   <p className="card-text text-muted">{tour.description}</p>
                   <div className="mb-2">
-                    <span className="badge bg-info me-2">📍 {tour.fromLocation.name} → {tour.toLocation.name}</span>
+                    <span className="badge bg-info me-2">📍 {tour.fromLocation?.name || 'Unknown'} → {tour.toLocation?.name || 'Unknown'}</span>
                   </div>
                   <div className="mb-2">
-                    <small className="text-muted">👨‍🏫 Guide: {tour.tourGuide.name}</small>
+                    <small className="text-muted">👨‍🏫 Guide: {tour.tourGuide?.name || 'Not assigned'}</small>
                   </div>
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <span className="price-tag-enhanced">₹{tour.ticketPrice}</span>

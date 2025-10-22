@@ -4,6 +4,7 @@ import com.tours.dto.ApiResponse;
 import com.tours.dto.LoginRequest;
 import com.tours.entity.User;
 import com.tours.service.UserService;
+import com.tours.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,20 @@ public class AuthController {
     @Autowired
     private UserService userService;
     
+    @Autowired
+    private EmailService emailService;
+    
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<User>> register(@RequestBody User user) {
         try {
+            String plainPassword = user.getPassword(); // Store plain password before encoding
             User registeredUser = userService.registerUser(user);
+            
+            // Send email if user is a tour guide
+            if ("TOUR_GUIDE".equals(registeredUser.getRole().toString())) {
+                emailService.sendTourGuideCredentials(registeredUser, plainPassword);
+            }
+            
             return ResponseEntity.ok(ApiResponse.success("User registered successfully", registeredUser));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));

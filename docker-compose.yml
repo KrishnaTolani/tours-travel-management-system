@@ -1,0 +1,8 @@
+services:
+  tours-app:
+    build: .
+    ports:
+      - "8081:8081"
+      - "5174:5174"
+    volumes:
+      - ./data:/app/data
